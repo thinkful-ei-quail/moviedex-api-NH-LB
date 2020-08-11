@@ -43,7 +43,7 @@ const handleSearchMovies = (req, res) => {
 
   if(avg_vote) {
     searchedMovies = searchedMovies.filter(movie => {
-      return movie.avg_vote >= Number(avg_vote);
+      return Number(movie.avg_vote) >= Number(avg_vote);
     })
   }
 
