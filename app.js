@@ -2,9 +2,14 @@
 
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
 const movies = require('./movies.json');
 
 const app = express();
+
+app.use(helmet());
+app.use(cors());
 
 const validateBearerToken = (req, res, next) => {
   const authToken = req.get('Authorization') || '';
@@ -26,8 +31,20 @@ const handleSearchMovies = (req, res) => {
 
   if(genre) {
     searchedMovies = searchedMovies.filter(movie => {
-      return movie.genre === genre;
+      return movie.genre.toLowerCase() === genre.toLowerCase();
     });
+  }
+
+  if(country) {
+    searchedMovies = searchedMovies.filter(movie => {
+      return movie.country.toLowerCase() === country.toLowerCase();
+    });
+  }
+
+  if(avg_vote) {
+    searchedMovies = searchedMovies.filter(movie => {
+      return movie.avg_vote >= Number(avg_vote);
+    })
   }
 
   res.json(searchedMovies);
