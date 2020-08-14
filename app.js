@@ -16,7 +16,7 @@ const validateBearerToken = (req, res, next) => {
   const apiToken = process.env.API_TOKEN;
 
   if(!authToken || authToken.split(' ').pop() !== apiToken) {
-    res.status(401).json({error: 'Unauthorized user, access denied.'});
+    return res.status(401).json({error: 'Unauthorized user, access denied.'});
   }
 
   next();
